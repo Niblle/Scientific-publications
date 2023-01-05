@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\PostsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -20,5 +20,7 @@ Route::get('/about', [\App\Http\Controllers\PagesController::class, 'about']);
 
 Route::get('/services', [\App\Http\Controllers\PagesController::class, 'services']);
 
-Route::resource('posts', [\App\Http\Controllers\PostsController::class, 'posts']);
+Route::resource('/posts', PostsController::class);
+
+
 

@@ -7,8 +7,8 @@ use Illuminate\Http\Request;
 class PagesController extends Controller
 {
     public function index(){
-
-        return view('pages.index');
+$title = 'Welcome to Scientific publications';
+return view ('pages.index', ['title' => $title]);
     }
     public function about(){
         return view('pages.about');

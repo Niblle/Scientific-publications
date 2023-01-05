@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+
 use Illuminate\Http\Request;
+use App\Models\Post;
+use DB;
+
 
 class PostsController extends Controller
 {
@@ -13,7 +17,8 @@ class PostsController extends Controller
      */
     public function index()
     {
-        return view('posts.index');
+        $posts = Post::orderBy('created_at','desc')->paginate(10);
+       return view ('posts.index', ['posts' => $posts]);
     }
 
     /**
@@ -23,7 +28,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        //
+        return('posts.create');
     }
 
     /**
@@ -45,7 +50,8 @@ class PostsController extends Controller
      */
     public function show($id)
     {
-        //
+       $post = Post::find($id);
+       return view('posts.show', ['post' => $post]);
     }
 
     /**
