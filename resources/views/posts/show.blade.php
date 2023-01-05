@@ -9,3 +9,4 @@
     <hr>
   <small>Written on {{$post->created_at}}</small>
 @endsection
+

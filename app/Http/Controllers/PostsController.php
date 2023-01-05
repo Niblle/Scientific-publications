@@ -28,7 +28,7 @@ class PostsController extends Controller
      */
     public function create()
     {
-        return('posts.create');
+        return view ('posts.create');
     }
 
     /**
@@ -39,7 +39,11 @@ class PostsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title'=> 'required',
+            'body' =>'required'
+        ]);
+        return 123;
     }
 
     /**
@@ -74,8 +78,33 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if($request->hasFile('upload')) {
+            //get filename with extension
+            $filenamewithextension = $request->file('upload')->getClientOriginalName();
+       
+            //get filename without extension
+            $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
+       
+            //get file extension
+            $extension = $request->file('upload')->getClientOriginalExtension();
+       
+            //filename to store
+            $filenametostore = $filename.'_'.time().'.'.$extension;
+       
+            //Upload File
+            $request->file('upload')->storeAs('public/uploads', $filenametostore);
+  
+            $CKEditorFuncNum = $request->input('CKEditorFuncNum');
+            $url = asset('storage/uploads/'.$filenametostore);
+            $msg = 'Image successfully uploaded';
+            $re = "<script>window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, '$url', '$msg')</script>";
+              
+            // Render HTML output
+            @header('Content-type: text/html; charset=utf-8');
+            echo $re;
+        }
     }
+ }
 
     /**
      * Remove the specified resource from storage.
@@ -83,8 +112,6 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
-    }
-}
+
+
+

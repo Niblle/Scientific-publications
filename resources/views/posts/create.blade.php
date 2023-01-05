@@ -1,15 +1,19 @@
 @extends('layouts.app')
 
 @section('content')
-    <h1>Posts</h1>
-        @if(count($posts)> 0)
-@foreach($posts as $post)
-<div class= 'well'>
-    <h3><a href="/posts/{{$post->id}}">{{$post->title}}</a></h3>
-    <small>Written on {{$post->created_at}}</small>
-</div>
-@endforeach
-@else
-        <p>No posts found</p>
-            @endif
+    <h1>Create Post</h1>
+    "{!! Form::open(['action' => 'App\Http\Controllers\PostsController@store', 'method' => 'POST']) !!}
+        <div class="form-group">
+            {{Form::label('title', 'Title')}}
+            {{Form::text('title', '', ['class' => 'form-control', 'placeholder' => 'Title'])}}
+        </div>
+        <div class="form-group">
+            {{Form::label('body', 'Body')}}
+            {{Form::textarea('body', '', ['id' => 'article-ckeditor', 'class' => 'form-control', 'placeholder' => 'Body Text'])}}
+        </div>
+        <div class="form-group">
+            {{Form::file('cover_image')}}
+        </div>
+        {{Form::submit('Submit', ['class'=>'btn btn-primary'])}}
+    {!! Form::close() !!}
 @endsection
