@@ -27,3 +27,7 @@ Route::post('ckeditor/image_upload', 'CKEditorController@upload')->name('upload'
 
 
 
+
+Auth::routes();
+
+Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index']);
