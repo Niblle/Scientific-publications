@@ -4,6 +4,7 @@
 
 
 <head>
+    <script src="{{ asset('ckeditor/ckeditor.js') }}" defer></script>
     @include('inc.navbar')
     
     <meta charset="utf-8">
@@ -23,6 +24,14 @@ href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
     </div>
     
 @yield('content')
+	
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.ckeditor').ckeditor();
+    });
+</script>
+
+
 
 
 </body>

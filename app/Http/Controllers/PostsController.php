@@ -43,7 +43,14 @@ class PostsController extends Controller
             'title'=> 'required',
             'body' =>'required'
         ]);
-        return 123;
+        
+        //Create post
+        $post = new Post;
+        $post->title = $request->input('title');
+        $post->body = $request->input('body');
+        $post->save();
+
+        return reDirect('/posts')->with('success', 'Post Created');
     }
 
     /**
@@ -66,7 +73,8 @@ class PostsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::find($id);
+       return view('posts.edit', ['post' => $post]);
     }
 
     /**
@@ -78,33 +86,19 @@ class PostsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if($request->hasFile('upload')) {
-            //get filename with extension
-            $filenamewithextension = $request->file('upload')->getClientOriginalName();
-       
-            //get filename without extension
-            $filename = pathinfo($filenamewithextension, PATHINFO_FILENAME);
-       
-            //get file extension
-            $extension = $request->file('upload')->getClientOriginalExtension();
-       
-            //filename to store
-            $filenametostore = $filename.'_'.time().'.'.$extension;
-       
-            //Upload File
-            $request->file('upload')->storeAs('public/uploads', $filenametostore);
-  
-            $CKEditorFuncNum = $request->input('CKEditorFuncNum');
-            $url = asset('storage/uploads/'.$filenametostore);
-            $msg = 'Image successfully uploaded';
-            $re = "<script>window.parent.CKEDITOR.tools.callFunction($CKEditorFuncNum, '$url', '$msg')</script>";
-              
-            // Render HTML output
-            @header('Content-type: text/html; charset=utf-8');
-            echo $re;
-        }
+        $this->validate($request, [
+            'title'=> 'required',
+            'body' =>'required'
+        ]);
+        
+        //Create post
+        $post = Post::find($id);
+        $post->title = $request->input('title');
+        $post->body = $request->input('body');
+        $post->save();
+
+        return redirect('/posts')->with('success', 'Post Updated');
     }
- }
 
     /**
      * Remove the specified resource from storage.
@@ -112,6 +106,11 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+public function destroy($id){
+    $post = Post::find($id);
+    $post->delete();
+    return redirect('/posts')->with('success', 'Post Removed');
+}
 
 
-
+}
